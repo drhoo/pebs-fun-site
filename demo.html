@@ -33,7 +33,6 @@
       font-size: 2rem;
       text-align: left;
       overflow-wrap: break-word;
-      word-break: break-word;
     }
 
     .keyboard {
@@ -67,6 +66,30 @@
       transform: scale(0.95);
     }
 
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .control-button {
+      flex: 1;
+      background: #ddd;
+      border: 2px solid #aaa;
+      border-radius: 12px;
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .control-button:hover {
+      background: #ccc;
+    }
+
     @media (max-width: 500px) {
       .key {
         width: 70px;
@@ -78,20 +101,20 @@
 <body>
   <div class="container">
     <div class="display" id="display"></div>
-    <div class="keyboard" id="keyboard">
-      <!-- Buttons inserted by JS -->
+    <div class="keyboard" id="keyboard"></div>
+    <div class="controls">
+      <div class="control-button" onclick="undoLast()">⬅️ Back</div>
+      <div class="control-button" onclick="clearDisplay()">❌ Clear</div>
     </div>
   </div>
 
   <script>
-    const symbols = [
-      "heart", "home", "hand", "spiral",
-      "foot", "waver", "sparkle", "nest",
-      "cloud", "line", "star", "nestle"
-    ];
-
     const display = document.getElementById("display");
     const keyboard = document.getElementById("keyboard");
+    const symbols = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
+
+    // Store added images for undo
+    const history = [];
 
     symbols.forEach(name => {
       const btn = document.createElement("div");
@@ -104,11 +127,35 @@
       btn.appendChild(img);
 
       btn.addEventListener("click", () => {
-        display.innerHTML += `<img src="symbols/${name}.svg" alt="${name}" style="width: 1.5em; vertical-align: middle;" /> `;
+        const newImg = document.createElement("img");
+        newImg.src = `symbols/${name}.svg`;
+        newImg.alt = name;
+        newImg.style.width = "1.5em";
+        newImg.style.verticalAlign = "middle";
+
+        display.appendChild(newImg);
+        display.append(" ");
+        history.push(newImg);
       });
 
       keyboard.appendChild(btn);
     });
+
+    function undoLast() {
+      if (history.length > 0) {
+        const last = history.pop();
+        last.remove();
+        // Remove trailing space if present
+        if (display.lastChild && display.lastChild.nodeType === Node.TEXT_NODE) {
+          display.removeChild(display.lastChild);
+        }
+      }
+    }
+
+    function clearDisplay() {
+      display.innerHTML = "";
+      history.length = 0;
+    }
   </script>
 </body>
 </html>
