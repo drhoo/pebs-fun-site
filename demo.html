@@ -1,79 +1,60 @@
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Pebs Fun Demo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
+  <meta charset="UTF-8" />
+  <title>Pebs Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
     html { scroll-behavior: smooth; }
-    .symbol-button img {
-      width: 3rem;
-      height: 3rem;
-    }
-    .message-bar {
-      min-height: 4rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-    }
-    .message-bar img {
-      width: 3rem;
-      height: 3rem;
-      margin: 0 0.25rem;
-    }
   </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans text-center p-4">
-<h1 class="text-4xl font-bold mb-4">Pebs Fun Demo</h1>
-<p class="mb-4">Tap up to 4 symbols to make your message.</p>
-<div class="message-bar bg-white rounded shadow mb-6 mx-auto max-w-md" id="messageBar"></div>
-<div class="grid grid-cols-4 gap-4 justify-center max-w-md mx-auto mb-6">
-<!-- Symbol Buttons -->
-<!-- These will load from the symbols folder -->
-<script>
-      const symbols = Array.from({length: 12}, (_, i) => `symbols/${String(i + 1).padStart(2, '0')}.svg`);
-      const messageBar = [];
+<body class="bg-yellow-50 text-gray-800 font-sans min-h-screen flex flex-col justify-center items-center px-4">
 
-      function renderSymbols() {
-        const container = document.currentScript.parentElement;
-        symbols.forEach((src, idx) => {
-          const btn = document.createElement("button");
-          btn.className = "symbol-button";
-          const img = document.createElement("img");
-          img.src = src;
-          img.alt = `Symbol ${idx + 1}`;
-          btn.onclick = () => {
-            if (messageBar.length < 4) {
-              messageBar.push(src);
-              updateMessageBar();
-            }
-          };
-          btn.appendChild(img);
-          container.appendChild(btn);
-        });
-      }
+  <h1 class="text-3xl font-bold mb-4">Send a Peb Message</h1>
+  <div id="display" class="text-5xl mb-6 h-20 flex items-center justify-center w-full max-w-xs border border-gray-400 rounded bg-white mx-auto text-center"></div>
 
-      function updateMessageBar() {
-        const bar = document.getElementById("messageBar");
-        bar.innerHTML = "";
-        messageBar.forEach(src => {
-          const img = document.createElement("img");
-          img.src = src;
-          bar.appendChild(img);
-        });
-      }
+  <!-- Keyboard Area -->
+  <div class="flex justify-center w-full">
+    <div class="grid grid-cols-4 gap-4 max-w-xs">
+      <button class="peb-btn">01</button>
+      <button class="peb-btn">02</button>
+      <button class="peb-btn">03</button>
+      <button class="peb-btn">04</button>
+      <button class="peb-btn">05</button>
+      <button class="peb-btn">06</button>
+      <button class="peb-btn">07</button>
+      <button class="peb-btn">08</button>
+    </div>
+  </div>
 
-      renderSymbols();
-    </script>
-</div>
-<button class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition mb-4" onclick="alert('Message sent!')">Send</button>
-<div>
-<a class="text-blue-600 underline" href="index.html">Back to Pebs.fun</a>
-</div>
+  <div class="mt-6">
+    <button id="sendBtn" class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition">Send</button>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    const buttons = document.querySelectorAll(".peb-btn");
+    const sendBtn = document.getElementById("sendBtn");
+
+    let message = [];
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (message.length < 4) {
+          message.push(btn.textContent);
+          display.textContent = message.join(" ");
+        }
+      });
+    });
+
+    sendBtn.addEventListener("click", () => {
+      alert("Message sent: " + message.join(" "));
+      message = [];
+      display.textContent = "";
+    });
+  </script>
+
 </body>
 </html>
