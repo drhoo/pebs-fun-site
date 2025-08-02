@@ -31,8 +31,11 @@
       padding: 1rem;
       margin-bottom: 1.5rem;
       font-size: 2rem;
-      text-align: left;
-      overflow-wrap: break-word;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      text-align: center;
     }
 
     .keyboard {
@@ -105,6 +108,7 @@
     <div class="controls">
       <div class="control-button" onclick="undoLast()">⬅️ Back</div>
       <div class="control-button" onclick="clearDisplay()">❌ Clear</div>
+      <div class="control-button" onclick="sendMessage()">📤 Send</div>
     </div>
   </div>
 
@@ -112,8 +116,6 @@
     const display = document.getElementById("display");
     const keyboard = document.getElementById("keyboard");
     const symbols = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
-
-    // Track added images for undo + limit
     const history = [];
 
     symbols.forEach(name => {
@@ -127,7 +129,7 @@
       btn.appendChild(img);
 
       btn.addEventListener("click", () => {
-        if (history.length >= 4) return; // Prevent more than 4
+        if (history.length >= 4) return;
 
         const newImg = document.createElement("img");
         newImg.src = `symbols/${name}.svg`;
@@ -136,7 +138,6 @@
         newImg.style.verticalAlign = "middle";
 
         display.appendChild(newImg);
-        display.append(" ");
         history.push(newImg);
       });
 
@@ -147,16 +148,21 @@
       if (history.length > 0) {
         const last = history.pop();
         last.remove();
-        // Remove trailing space if present
-        if (display.lastChild && display.lastChild.nodeType === Node.TEXT_NODE) {
-          display.removeChild(display.lastChild);
-        }
       }
     }
 
     function clearDisplay() {
       display.innerHTML = "";
       history.length = 0;
+    }
+
+    function sendMessage() {
+      if (history.length === 0) {
+        alert("No symbols to send!");
+        return;
+      }
+      alert("Message sent! (You can replace this with your own logic.)");
+      clearDisplay();
     }
   </script>
 </body>
