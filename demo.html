@@ -4,66 +4,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pebs Message Demo</title>
+  <title>Pebs Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .symbol-button img {
-      width: 3rem;
-      height: 3rem;
+    .peb-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100px;
+      max-width: 320px;
+      margin: auto;
+      border: 2px solid #ddd;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-size: 2rem;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .peb-keyboard {
+      max-width: 360px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .peb-button {
+      aspect-ratio: 1;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: #fef9c3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 2px solid #000;
+      cursor: pointer;
+      user-select: none;
     }
   </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans text-center p-6">
+<body class="bg-yellow-50 text-gray-800 font-sans text-center p-4">
 
-  <h1 class="text-3xl font-bold mb-2">Make a Pebs Message</h1>
-  <p class="mb-6 text-lg">Tap up to 4 symbols to create a message.</p>
+  <h1 class="text-3xl font-bold mb-6">Peb Message</h1>
+  <div id="pebDisplay" class="peb-display mb-4"></div>
 
-  <!-- Display Bar -->
-  <div id="messageBar" class="w-[16rem] h-16 mx-auto mb-6 flex items-center justify-center border border-gray-400 bg-white rounded shadow text-4xl overflow-hidden whitespace-nowrap">
+  <div class="peb-keyboard" id="pebKeyboard">
+    <!-- Buttons will be injected here -->
   </div>
 
-  <!-- Symbol Keyboard -->
-  <div class="grid grid-cols-4 gap-4 max-w-md mx-auto mb-6">
-    <!-- JS will populate buttons here -->
-  </div>
-
-  <!-- Controls -->
-  <div class="space-x-4 mb-6">
-    <button onclick="sendMessage()" class="px-4 py-2 bg-green-600 text-white rounded">Send</button>
-    <button onclick="clearMessage()" class="px-4 py-2 bg-gray-400 text-white rounded">Clear</button>
-  </div>
-
-  <!-- Back Link -->
-  <a href="index.html" class="text-blue-600 underline">← Back to Pebs.fun</a>
+  <button onclick="sendMessage()" class="mt-4 px-4 py-2 bg-black text-white rounded-full">Send</button>
 
   <script>
-    const messageBar = document.getElementById("messageBar");
-    const keyboard = document.querySelector(".grid");
+    const symbols = [
+      "❤️", "🏠", "🌀", "✋",
+      "🐾", "🌊", "✨", "🪺",
+      "☁️", "—", "🌟", "🛶"
+    ];
+    const display = document.getElementById("pebDisplay");
+    const keyboard = document.getElementById("pebKeyboard");
 
-    for (let i = 1; i <= 12; i++) {
-      const btn = document.createElement("button");
-      btn.className = "symbol-button rounded-full bg-white p-2 shadow";
-      const img = document.createElement("img");
-      img.src = `symbols/${String(i).padStart(2, '0')}.svg`;
-      img.alt = `Symbol ${i}`;
-      btn.appendChild(img);
-      btn.onclick = () => {
-        if (messageBar.children.length < 4) {
-          messageBar.appendChild(img.cloneNode(true));
+    function updateDisplay() {
+      display.textContent = message.join("");
+    }
+
+    let message = [];
+
+    symbols.forEach((symbol, index) => {
+      const button = document.createElement("div");
+      button.className = "peb-button";
+      button.textContent = symbol;
+      button.onclick = () => {
+        if (message.length < 4) {
+          message.push(symbol);
+          updateDisplay();
         }
       };
-      keyboard.appendChild(btn);
-    }
-
-    function clearMessage() {
-      messageBar.innerHTML = "";
-    }
+      keyboard.appendChild(button);
+    });
 
     function sendMessage() {
-      alert("✨ Message sent into the universe! ✨");
-      clearMessage();
+      alert("Message sent: " + message.join(""));
+      message = [];
+      updateDisplay();
     }
   </script>
-
 </body>
 </html>
