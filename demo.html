@@ -3,29 +3,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pebs Message Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pebs Demo – Symbol Message Maker</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .symbol-button:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s;
+    }
+  </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans p-6">
-  <h1 class="text-4xl font-bold mb-6 text-center">Pebs Message Demo</h1>
-  <div class="grid grid-cols-4 gap-4 justify-items-center">
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/01.svg" alt="Peb 1" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/02.svg" alt="Peb 2" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/03.svg" alt="Peb 3" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/04.svg" alt="Peb 4" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/05.svg" alt="Peb 5" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/06.svg" alt="Peb 6" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/07.svg" alt="Peb 7" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/08.svg" alt="Peb 8" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/09.svg" alt="Peb 9" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/10.svg" alt="Peb 10" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/11.svg" alt="Peb 11" class="w-20 h-20 hover:scale-110 transition" /></button>
-<button><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/12.svg" alt="Peb 12" class="w-20 h-20 hover:scale-110 transition" /></button>
+<body class="bg-yellow-50 text-gray-800 font-sans flex flex-col items-center p-6">
 
+  <h1 class="text-4xl font-bold mb-2">Pebs Message Demo</h1>
+  <p class="mb-6 text-lg text-center">Tap the symbols to build a message. Then imagine what it might mean!</p>
+
+  <!-- Display area -->
+  <div id="messageDisplay" class="min-h-[80px] w-full max-w-xl mb-8 p-4 border-2 border-dashed border-gray-400 bg-white text-4xl flex flex-wrap items-center justify-center rounded-lg">
+    <!-- symbols will appear here -->
   </div>
-  <div class="mt-10 text-center">
-    <a href="https://pebs.fun" class="inline-block mt-6 px-6 py-3 bg-black text-white rounded-full text-lg hover:bg-gray-800 transition">Back to Pebs.fun</a>
+
+  <!-- Keyboard area -->
+  <div class="grid grid-cols-6 gap-4 max-w-xl">
+
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/01.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/01.svg" alt="Peb symbol 01" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/02.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/02.svg" alt="Peb symbol 02" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/03.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/03.svg" alt="Peb symbol 03" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/04.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/04.svg" alt="Peb symbol 04" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/05.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/05.svg" alt="Peb symbol 05" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/06.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/06.svg" alt="Peb symbol 06" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/07.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/07.svg" alt="Peb symbol 07" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/08.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/08.svg" alt="Peb symbol 08" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/09.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/09.svg" alt="Peb symbol 09" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/10.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/10.svg" alt="Peb symbol 10" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/11.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/11.svg" alt="Peb symbol 11" class="w-16 h-16"/>
+    </button>
+    
+    <button class="symbol-button" onclick="addSymbol('https://raw.githubusercontent.com/drhoo/pebs-symbols/main/12.svg')">
+      <img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/12.svg" alt="Peb symbol 12" class="w-16 h-16"/>
+    </button>
+    
   </div>
+
+  <!-- Controls -->
+  <div class="mt-8 flex gap-4">
+    <button onclick="clearMessage()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Clear</button>
+    <a href="index.html" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">Back to Pebs.fun</a>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const display = document.getElementById('messageDisplay');
+    function addSymbol(url) {
+      const img = document.createElement('img');
+      img.src = url;
+      img.className = "w-12 h-12 m-1";
+      display.appendChild(img);
+    }
+    function clearMessage() {
+      display.innerHTML = "";
+    }
+  </script>
 </body>
 </html>
