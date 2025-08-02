@@ -1,92 +1,114 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pebs Demo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pebs Keyboard Demo</title>
   <style>
-    .peb-display {
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #f8f8f8;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      min-height: 100px;
-      max-width: 320px;
-      margin: auto;
-      border: 2px solid #ddd;
-      border-radius: 0.5rem;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+      margin: 0 auto;
       padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .display {
+      min-height: 100px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
       font-size: 2rem;
-      overflow: hidden;
-      white-space: nowrap;
+      text-align: left;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
-    .peb-keyboard {
-      max-width: 360px;
-      margin: 2rem auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-    }
-    .peb-button {
-      aspect-ratio: 1;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      background-color: #fef9c3;
+
+    .keyboard {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       justify-content: center;
-      font-size: 1.5rem;
-      border: 2px solid #000;
+      gap: 12px;
+    }
+
+    .key {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
       cursor: pointer;
-      user-select: none;
+      transition: transform 0.1s;
+    }
+
+    .key img {
+      max-width: 60%;
+      max-height: 60%;
+      object-fit: contain;
+    }
+
+    .key:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 500px) {
+      .key {
+        width: 70px;
+        height: 70px;
+      }
     }
   </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans text-center p-4">
-
-  <h1 class="text-3xl font-bold mb-6">Peb Message</h1>
-  <div id="pebDisplay" class="peb-display mb-4"></div>
-
-  <div class="peb-keyboard" id="pebKeyboard">
-    <!-- Buttons will be injected here -->
+<body>
+  <div class="container">
+    <div class="display" id="display"></div>
+    <div class="keyboard" id="keyboard">
+      <!-- Buttons inserted by JS -->
+    </div>
   </div>
-
-  <button onclick="sendMessage()" class="mt-4 px-4 py-2 bg-black text-white rounded-full">Send</button>
 
   <script>
     const symbols = [
-      "❤️", "🏠", "🌀", "✋",
-      "🐾", "🌊", "✨", "🪺",
-      "☁️", "—", "🌟", "🛶"
+      "heart", "home", "hand", "spiral",
+      "foot", "waver", "sparkle", "nest",
+      "cloud", "line", "star", "nestle"
     ];
-    const display = document.getElementById("pebDisplay");
-    const keyboard = document.getElementById("pebKeyboard");
 
-    function updateDisplay() {
-      display.textContent = message.join("");
-    }
+    const display = document.getElementById("display");
+    const keyboard = document.getElementById("keyboard");
 
-    let message = [];
+    symbols.forEach(name => {
+      const btn = document.createElement("div");
+      btn.className = "key";
 
-    symbols.forEach((symbol, index) => {
-      const button = document.createElement("div");
-      button.className = "peb-button";
-      button.textContent = symbol;
-      button.onclick = () => {
-        if (message.length < 4) {
-          message.push(symbol);
-          updateDisplay();
-        }
-      };
-      keyboard.appendChild(button);
+      const img = document.createElement("img");
+      img.src = `symbols/${name}.svg`;
+      img.alt = name;
+
+      btn.appendChild(img);
+
+      btn.addEventListener("click", () => {
+        display.innerHTML += `<img src="symbols/${name}.svg" alt="${name}" style="width: 1.5em; vertical-align: middle;" /> `;
+      });
+
+      keyboard.appendChild(btn);
     });
-
-    function sendMessage() {
-      alert("Message sent: " + message.join(""));
-      message = [];
-      updateDisplay();
-    }
   </script>
 </body>
 </html>
