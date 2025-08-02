@@ -1,12 +1,13 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pebs Fun Demo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pebs Fun Demo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
     html { scroll-behavior: smooth; }
     .symbol-button img {
       width: 3rem;
@@ -28,16 +29,13 @@
   </style>
 </head>
 <body class="bg-yellow-50 text-gray-800 font-sans text-center p-4">
-
-  <h1 class="text-4xl font-bold mb-4">Pebs Fun Demo</h1>
-  <p class="mb-4">Tap up to 4 symbols to make your message.</p>
-
-  <div id="messageBar" class="message-bar bg-white rounded shadow mb-6 mx-auto max-w-md"></div>
-
-  <div class="grid grid-cols-4 gap-4 justify-center max-w-md mx-auto mb-6">
-    <!-- Symbol Buttons -->
-    <!-- These will load from the symbols folder -->
-    <script>
+<h1 class="text-4xl font-bold mb-4">Pebs Fun Demo</h1>
+<p class="mb-4">Tap up to 4 symbols to make your message.</p>
+<div class="message-bar bg-white rounded shadow mb-6 mx-auto max-w-md" id="messageBar"></div>
+<div class="grid grid-cols-4 gap-4 justify-center max-w-md mx-auto mb-6">
+<!-- Symbol Buttons -->
+<!-- These will load from the symbols folder -->
+<script>
       const symbols = Array.from({length: 12}, (_, i) => `symbols/${String(i + 1).padStart(2, '0')}.svg`);
       const messageBar = [];
 
@@ -72,13 +70,10 @@
 
       renderSymbols();
     </script>
-  </div>
-
-  <button onclick="alert('Message sent!')" class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition mb-4">Send</button>
-
-  <div>
-    <a href="index.html" class="text-blue-600 underline">Back to Pebs.fun</a>
-  </div>
-
+</div>
+<button class="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition mb-4" onclick="alert('Message sent!')">Send</button>
+<div>
+<a class="text-blue-600 underline" href="index.html">Back to Pebs.fun</a>
+</div>
 </body>
 </html>
