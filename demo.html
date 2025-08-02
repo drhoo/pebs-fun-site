@@ -1,161 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pebs Keyboard Demo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background: #f8f8f8;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+<script>
+  const display = document.getElementById("display");
+  const keyboard = document.getElementById("keyboard");
+  const symbols = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
 
-    .container {
-      max-width: 420px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
+  // Track added images for undo + limit
+  const history = [];
 
-    .display {
-      min-height: 100px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-      text-align: left;
-      overflow-wrap: break-word;
-    }
+  symbols.forEach(name => {
+    const btn = document.createElement("div");
+    btn.className = "key";
 
-    .keyboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
+    const img = document.createElement("img");
+    img.src = `symbols/${name}.svg`;
+    img.alt = name;
 
-    .key {
-      width: 80px;
-      height: 80px;
-      background: white;
-      border: 2px solid #ccc;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.1s;
-    }
+    btn.appendChild(img);
 
-    .key img {
-      max-width: 60%;
-      max-height: 60%;
-      object-fit: contain;
-    }
+    btn.addEventListener("click", () => {
+      if (history.length >= 4) return; // Prevent more than 4
 
-    .key:active {
-      transform: scale(0.95);
-    }
+      const newImg = document.createElement("img");
+      newImg.src = `symbols/${name}.svg`;
+      newImg.alt = name;
+      newImg.style.width = "1.5em";
+      newImg.style.verticalAlign = "middle";
 
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1.5rem;
-      gap: 1rem;
-    }
-
-    .control-button {
-      flex: 1;
-      background: #ddd;
-      border: 2px solid #aaa;
-      border-radius: 12px;
-      padding: 0.75rem;
-      font-size: 1.1rem;
-      cursor: pointer;
-      text-align: center;
-      user-select: none;
-      transition: background 0.2s;
-    }
-
-    .control-button:hover {
-      background: #ccc;
-    }
-
-    @media (max-width: 500px) {
-      .key {
-        width: 70px;
-        height: 70px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="display" id="display"></div>
-    <div class="keyboard" id="keyboard"></div>
-    <div class="controls">
-      <div class="control-button" onclick="undoLast()">⬅️ Back</div>
-      <div class="control-button" onclick="clearDisplay()">❌ Clear</div>
-    </div>
-  </div>
-
-  <script>
-    const display = document.getElementById("display");
-    const keyboard = document.getElementById("keyboard");
-    const symbols = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
-
-    // Store added images for undo
-    const history = [];
-
-    symbols.forEach(name => {
-      const btn = document.createElement("div");
-      btn.className = "key";
-
-      const img = document.createElement("img");
-      img.src = `symbols/${name}.svg`;
-      img.alt = name;
-
-      btn.appendChild(img);
-
-      btn.addEventListener("click", () => {
-        const newImg = document.createElement("img");
-        newImg.src = `symbols/${name}.svg`;
-        newImg.alt = name;
-        newImg.style.width = "1.5em";
-        newImg.style.verticalAlign = "middle";
-
-        display.appendChild(newImg);
-        display.append(" ");
-        history.push(newImg);
-      });
-
-      keyboard.appendChild(btn);
+      display.appendChild(newImg);
+      display.append(" ");
+      history.push(newImg);
     });
 
-    function undoLast() {
-      if (history.length > 0) {
-        const last = history.pop();
-        last.remove();
-        // Remove trailing space if present
-        if (display.lastChild && display.lastChild.nodeType === Node.TEXT_NODE) {
-          display.removeChild(display.lastChild);
-        }
+    keyboard.appendChild(btn);
+  });
+
+  function undoLast() {
+    if (history.length > 0) {
+      const last = history.pop();
+      last.remove();
+      // Remove trailing space if present
+      if (display.lastChild && display.lastChild.nodeType === Node.TEXT_NODE) {
+        display.removeChild(display.lastChild);
       }
     }
+  }
 
-    function clearDisplay() {
-      display.innerHTML = "";
-      history.length = 0;
-    }
-  </script>
-</body>
-</html>
+  function clearDisplay() {
+    display.innerHTML = "";
+    history.length = 0;
+  }
+</script>
