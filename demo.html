@@ -1,81 +1,71 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pebs Demo</title>
+  <title>Pebs Message Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .fade-up {
-      animation: fadeUp 1.2s ease-in-out forwards;
+    .symbol-display {
+      white-space: nowrap;
+      overflow-x: auto;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
-
-    @keyframes fadeUp {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-60px); }
-    }
-
-    .symbol-btn:hover {
-      transform: scale(1.1);
-      transition: transform 0.2s ease;
+    .symbol-display::-webkit-scrollbar {
+      display: none;
     }
   </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans flex flex-col items-center p-6 space-y-10">
+<body class="bg-yellow-50 text-gray-800 font-sans">
 
-  <h1 class="text-4xl font-bold mt-4">Pebs Playground</h1>
+  <section class="min-h-screen flex flex-col justify-center items-center p-4">
+    <h1 class="text-4xl font-bold mb-4">Make a Peb Message</h1>
+    <div id="display" class="symbol-display w-full max-w-sm bg-white rounded shadow mb-6 text-4xl border border-gray-300"></div>
 
-  <!-- Message Display -->
-  <div id="messageDisplay" class="min-h-[64px] text-5xl p-4 border-4 border-dashed rounded-lg w-full max-w-lg bg-white text-center">
-    <!-- Symbols appear here -->
-  </div>
+    <div id="keyboard" class="grid grid-cols-4 gap-4 mb-6">
+      <!-- Dynamically generated buttons will go here -->
+    </div>
 
-  <!-- Peb Keyboard -->
-  <div class="grid grid-cols-6 gap-4 max-w-lg w-full">
-    <button onclick="addSymbol('01.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/01.svg" alt="Peb 1" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('02.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/02.svg" alt="Peb 2" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('03.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/03.svg" alt="Peb 3" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('04.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/04.svg" alt="Peb 4" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('05.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/05.svg" alt="Peb 5" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('06.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/06.svg" alt="Peb 6" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('07.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/07.svg" alt="Peb 7" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('08.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/08.svg" alt="Peb 8" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('09.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/09.svg" alt="Peb 9" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('10.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/10.svg" alt="Peb 10" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('11.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/11.svg" alt="Peb 11" class="w-12 h-12 mx-auto"></button>
-<button onclick="addSymbol('12.svg')" class="symbol-btn"><img src="https://raw.githubusercontent.com/drhoo/pebs-symbols/main/12.svg" alt="Peb 12" class="w-12 h-12 mx-auto"></button>
-  </div>
-
-  <!-- Controls -->
-  <div class="flex gap-4 mt-6">
-    <button onclick="clearMessage()" class="px-4 py-2 bg-red-200 text-red-800 rounded-full">Clear</button>
-    <button onclick="sendMessage()" class="px-4 py-2 bg-green-200 text-green-800 rounded-full">Send</button>
-  </div>
+    <button onclick="sendMessage()" class="px-6 py-3 bg-black text-white rounded-full text-lg hover:bg-gray-800 transition">Send</button>
+  </section>
 
   <script>
-    const maxSymbols = 4;
-    const messageDisplay = document.getElementById("messageDisplay");
+    const symbols = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"];
+    const display = document.getElementById('display');
+    const keyboard = document.getElementById('keyboard');
 
-    function addSymbol(filename) {
-      if (messageDisplay.children.length >= maxSymbols) return;
-      const img = document.createElement("img");
-      img.src = `https://raw.githubusercontent.com/drhoo/pebs-symbols/main/${filename}`;
-      img.alt = filename;
-      img.className = "inline-block w-12 h-12 mx-1";
-      messageDisplay.appendChild(img);
+    let currentMessage = [];
+
+    function updateDisplay() {
+      display.innerText = currentMessage.join(' ');
     }
 
-    function clearMessage() {
-      messageDisplay.innerHTML = "";
-    }
+    symbols.forEach(symbol => {
+      const btn = document.createElement('button');
+      btn.innerText = symbol;
+      btn.className = "text-3xl p-3 bg-white rounded shadow hover:bg-yellow-100";
+      btn.onclick = () => {
+        if (currentMessage.length < 4) {
+          currentMessage.push(symbol);
+          updateDisplay();
+        }
+      };
+      keyboard.appendChild(btn);
+    });
 
     function sendMessage() {
-      Array.from(messageDisplay.children).forEach(child => {
-        child.classList.add("fade-up");
-      });
-      setTimeout(() => clearMessage(), 1200);
+      alert("Sent: " + currentMessage.join(' '));
+      currentMessage = [];
+      updateDisplay();
     }
-  </script>
 
+    updateDisplay();
+  </script>
 </body>
 </html>
