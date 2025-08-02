@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pebs Message Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .peb-button { font-size: 2rem; padding: 0.5rem; margin: 0.25rem; }
+    .message-bar { min-height: 3rem; font-size: 2rem; }
+    .sparkle { animation: sparkle 0.8s ease-in-out; }
+    @keyframes sparkle {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-yellow-50 text-gray-800 font-sans min-h-screen flex flex-col items-center justify-between p-6">
+
+  <!-- Header -->
+  <div class="w-full flex justify-between items-center mb-4">
+    <a href="index.html" class="text-blue-600 underline text-sm">← Back to Pebs.fun</a>
+    <h1 class="text-2xl font-bold">Make a Peb Message</h1>
+    <div></div>
+  </div>
+
+  <!-- Message Display -->
+  <div id="messageBar" class="message-bar bg-white w-full max-w-2xl text-center p-4 rounded shadow mb-6"></div>
+
+  <!-- Symbol Keyboard -->
+  <div class="grid grid-cols-4 gap-4 mb-6">
+    <button class="peb-button" onclick="addPeb('❤️')">❤️</button>
+    <button class="peb-button" onclick="addPeb('🏠')">🏠</button>
+    <button class="peb-button" onclick="addPeb('✋')">✋</button>
+    <button class="peb-button" onclick="addPeb('🌀')">🌀</button>
+    <button class="peb-button" onclick="addPeb('🐾')">🐾</button>
+    <button class="peb-button" onclick="addPeb('🌊')">🌊</button>
+    <button class="peb-button" onclick="addPeb('✨')">✨</button>
+    <button class="peb-button" onclick="addPeb('🪺')">🪺</button>
+    <button class="peb-button" onclick="addPeb('☁️')">☁️</button>
+    <button class="peb-button" onclick="addPeb('—')">—</button>
+    <button class="peb-button" onclick="addPeb('🌟')">🌟</button>
+    <button class="peb-button" onclick="addPeb('🛶')">🛶</button>
+  </div>
+
+  <!-- Send Button -->
+  <button onclick="sendMessage()" class="px-6 py-3 bg-blue-600 text-white text-lg rounded-full shadow hover:bg-blue-700 transition">
+    Send
+  </button>
+
+  <script>
+    function addPeb(peb) {
+      const bar = document.getElementById("messageBar");
+      bar.textContent += peb + " ";
+    }
+
+    function sendMessage() {
+      const bar = document.getElementById("messageBar");
+      bar.classList.add("sparkle");
+      setTimeout(() => {
+        bar.textContent = "";
+        bar.classList.remove("sparkle");
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>
