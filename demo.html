@@ -1,116 +1,67 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pebs Demo</title>
+  <title>Pebs Message Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    html { scroll-behavior: smooth; }
-    #messageDisplay {
-      white-space: nowrap;
-      overflow-x: auto;
+    .symbol-button img {
+      width: 3rem;
+      height: 3rem;
     }
   </style>
 </head>
-<body class="bg-yellow-50 text-gray-800 font-sans">
+<body class="bg-yellow-50 text-gray-800 font-sans text-center p-6">
 
-  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-10">
-    <h1 class="text-4xl font-bold mb-4">Pebs Message Demo</h1>
+  <h1 class="text-3xl font-bold mb-2">Make a Pebs Message</h1>
+  <p class="mb-6 text-lg">Tap up to 4 symbols to create a message.</p>
 
-    <div id="messageDisplay" class="flex space-x-2 mb-6 min-h-[60px] items-center justify-center border rounded-lg px-4 py-2 bg-white max-w-full overflow-x-auto">
-      <!-- Symbols will appear here -->
-    </div>
+  <!-- Display Bar -->
+  <div id="messageBar" class="w-[16rem] h-16 mx-auto mb-6 flex items-center justify-center border border-gray-400 bg-white rounded shadow text-4xl overflow-hidden whitespace-nowrap">
+  </div>
 
-    <div id="keyboard" class="grid grid-cols-4 gap-4 max-w-md mx-auto">
-      
-    <button onclick="addSymbol('01.svg')" class="p-2">
-      <img src="symbols/01.svg" alt="Symbol 1" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('02.svg')" class="p-2">
-      <img src="symbols/02.svg" alt="Symbol 2" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('03.svg')" class="p-2">
-      <img src="symbols/03.svg" alt="Symbol 3" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('04.svg')" class="p-2">
-      <img src="symbols/04.svg" alt="Symbol 4" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('05.svg')" class="p-2">
-      <img src="symbols/05.svg" alt="Symbol 5" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('06.svg')" class="p-2">
-      <img src="symbols/06.svg" alt="Symbol 6" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('07.svg')" class="p-2">
-      <img src="symbols/07.svg" alt="Symbol 7" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('08.svg')" class="p-2">
-      <img src="symbols/08.svg" alt="Symbol 8" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('09.svg')" class="p-2">
-      <img src="symbols/09.svg" alt="Symbol 9" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('10.svg')" class="p-2">
-      <img src="symbols/10.svg" alt="Symbol 10" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('11.svg')" class="p-2">
-      <img src="symbols/11.svg" alt="Symbol 11" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    <button onclick="addSymbol('12.svg')" class="p-2">
-      <img src="symbols/12.svg" alt="Symbol 12" class="w-12 h-12 mx-auto" />
-    </button>
-    
-    </div>
+  <!-- Symbol Keyboard -->
+  <div class="grid grid-cols-4 gap-4 max-w-md mx-auto mb-6">
+    <!-- JS will populate buttons here -->
+  </div>
 
-    <div class="mt-6">
-      <button onclick="clearMessage()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Clear</button>
-      <button onclick="sendMessage()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 ml-2">Send</button>
-    </div>
+  <!-- Controls -->
+  <div class="space-x-4 mb-6">
+    <button onclick="sendMessage()" class="px-4 py-2 bg-green-600 text-white rounded">Send</button>
+    <button onclick="clearMessage()" class="px-4 py-2 bg-gray-400 text-white rounded">Clear</button>
+  </div>
 
-    <div id="sentMessage" class="mt-6 text-lg text-gray-600"></div>
-
-    <div class="mt-10">
-      <a href="index.html" class="text-blue-600 underline">← Back to Pebs.fun</a>
-    </div>
-  </section>
+  <!-- Back Link -->
+  <a href="index.html" class="text-blue-600 underline">← Back to Pebs.fun</a>
 
   <script>
-    const messageDisplay = document.getElementById('messageDisplay');
-    const sentMessage = document.getElementById('sentMessage');
-    const maxSymbols = 4;
-    let currentSymbols = [];
+    const messageBar = document.getElementById("messageBar");
+    const keyboard = document.querySelector(".grid");
 
-    function addSymbol(filename) {
-      if (currentSymbols.length >= maxSymbols) return;
-      const img = document.createElement('img');
-      img.src = 'symbols/' + filename;
-      img.alt = filename;
-      img.className = 'w-12 h-12';
-      messageDisplay.appendChild(img);
-      currentSymbols.push(filename);
+    for (let i = 1; i <= 12; i++) {
+      const btn = document.createElement("button");
+      btn.className = "symbol-button rounded-full bg-white p-2 shadow";
+      const img = document.createElement("img");
+      img.src = `symbols/${String(i).padStart(2, '0')}.svg`;
+      img.alt = `Symbol ${i}`;
+      btn.appendChild(img);
+      btn.onclick = () => {
+        if (messageBar.children.length < 4) {
+          messageBar.appendChild(img.cloneNode(true));
+        }
+      };
+      keyboard.appendChild(btn);
     }
 
     function clearMessage() {
-      currentSymbols = [];
-      messageDisplay.innerHTML = '';
-      sentMessage.innerHTML = '';
+      messageBar.innerHTML = "";
     }
 
     function sendMessage() {
-      if (currentSymbols.length === 0) return;
-      sentMessage.innerHTML = "Message sent! (" + currentSymbols.join(', ') + ")";
+      alert("✨ Message sent into the universe! ✨");
+      clearMessage();
     }
   </script>
 
