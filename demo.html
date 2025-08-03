@@ -93,6 +93,38 @@
       background: #ccc;
     }
 
+    /* Bubble background styles */
+.bubble-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  background: none;
+}
+
+.bubble.size-22 { width: 22mm; height: 22mm; opacity: 0.02; }
+.bubble.size-32 { width: 32mm; height: 32mm; opacity: 0.03; }
+.bubble.size-46 { width: 46mm; height: 46mm; opacity: 0.04; }
+.bubble.size-66 { width: 66mm; height: 66mm; opacity: 0.05; }
+
+.bubble.size-22,
+.bubble.size-32,
+.bubble.size-46,
+.bubble.size-66 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
     @media (max-width: 500px) {
       .key {
         width: 70px;
@@ -102,6 +134,16 @@
   </style>
 </head>
 <body>
+<div class="bubble-background">
+  <div class="bubble size-66"></div>
+  <div class="bubble size-46"></div>
+  <div class="bubble size-32"></div>
+  <div class="bubble size-22"></div>
+</div>
+
+
+
+  
   <div class="container">
     <div class="display" id="display"></div>
     <div class="keyboard" id="keyboard"></div>
